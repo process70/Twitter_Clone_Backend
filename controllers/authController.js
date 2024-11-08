@@ -28,7 +28,7 @@ export const signUp = async (req, res) => {
         else return res.status(400).json({message: 'Unable to create the user'})
 
     } catch (error) {
-        return res.status(500).json({message: 'Internal Server Error: '+ error})
+        return res.status(500).json({message: 'Internal Server Error: '+ error.message})
     }
 }
 
