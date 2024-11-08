@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { dbConnect } from "./db/dbConnection.js";
 import cookieParser from "cookie-parser";
 import upload from "express-fileupload";
+import path from 'path'
 
 import {v2 as cloudinary} from "cloudinary"
 
@@ -51,6 +52,9 @@ app.use("/auth", authRouter)
 app.use("/users", userRouter)
 app.use("/posts", postRouter)
 app.use("/notifications", notificationRouter)
+app.use('/', (req, res) => {
+  res.sendFile(path.resolve('index.html'));
+})
 // Add a catch-all route for debugging
 app.use((req, res) => {
     console.log(`Received request for ${req.method} ${req.url}`);
