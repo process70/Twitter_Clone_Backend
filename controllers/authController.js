@@ -66,7 +66,7 @@ export const logout = async (req, res) => {
         const { jwt } = req.cookies
         if(!jwt) return res.status(204).json({message: 'No JWT Provided'})
 
-        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: process.env.NODE_ENV !=="developement" })
+        res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true })
         res.status(201).json({message: "cookie cleared successfuly"})
         
         

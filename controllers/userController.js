@@ -153,15 +153,11 @@ export const getSuggestedUsers = async(req, res) => {
 }
 
 export const updateUser = async(req, res) => {
-    const { fullName, email, username, bio, link } = req.body;
-    const newPassword = req.body?.newPassword
+    const { fullName, email, username, bio, link, newPassword } = req.body;
 
     const userId = req.userId;
     const profileImg = req.files?.profileImg;
     const coverImg = req.files?.coverImg;
-
-    console.log({profileImg})
-    console.log({coverImg})
    
     let  profileImgName = "" 
     let  coverImgName = "" 
@@ -171,8 +167,10 @@ export const updateUser = async(req, res) => {
 		if (!user) return res.status(404).json({ message: "User not found" });
         
         let loginAgain = username !== user.username
-		if (newPassword) {
+
+		if (newPassword !== '') {
             // the user need to log in again
+            console.log("password changed", newPassword)
             loginAgain = true
 			const salt = await bcrypt.genSalt(10);
 			user.password = await bcrypt.hash(newPassword, salt);
@@ -273,7 +271,7 @@ export const updateUser = async(req, res) => {
 		user.link = link || user.link;
 		user.cover = coverImgName || user.cover;
 		user.profileImage = profileImgName || user.profileImage;
-
+        console.log({user})
 		user = await user.save();
 
 		// password should be null in response
