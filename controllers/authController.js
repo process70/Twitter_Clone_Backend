@@ -6,13 +6,13 @@ export const signUp = async (req, res) => {
     try {
         const {fullName, username, email, password} = req.body
         if(!fullName || !username || !email || !password)
-            return res.status(400).json({error: "All Fileds are Required!"})
+            return res.status(400).json({message: "All Fileds are Required!"})
         
         const existingEmail = await User.findOne({email})
         const existingUsername = await User.findOne({username})
 
         if(existingEmail || existingUsername) 
-            return res.status(400).json({error: "Duplicate, Email, Username Already Taken"})
+            return res.status(400).json({message: "Duplicate, Email, Username Already Taken"})
         
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -28,6 +28,7 @@ export const signUp = async (req, res) => {
         else return res.status(400).json({message: 'Unable to create the user'})
 
     } catch (error) {
+        console.error('Signup Error:', error);
         return res.status(500).json({message: 'Internal Server Error: '+ error.message})
     }
 }
