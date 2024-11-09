@@ -62,9 +62,6 @@ app.use("/notifications", notificationRouter)
 app.use('/', (req, res) => {
   res.sendFile(path.resolve('index.html'));
 })
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "/frontend/dist")));
-}
 // Add a catch-all route for debugging
 app.use((req, res) => {
     console.log(`Received request for ${req.method} ${req.url}`);
