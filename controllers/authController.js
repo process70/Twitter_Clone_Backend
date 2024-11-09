@@ -6,6 +6,7 @@ export const signUp = async (req, res) => {
     try {
         const {fullName, username, email, password} = req.body
         if(!fullName || !username || !email || !password)
+            console.log({fullName, username, email, password})
             return res.status(400).json({message: "All Fileds are Required!"})
         
         const existingEmail = await User.findOne({email})
