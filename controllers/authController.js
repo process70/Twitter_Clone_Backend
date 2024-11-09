@@ -21,6 +21,8 @@ export const signUp = async (req, res) => {
         const createdUser = await User.create(newUser)
         
         if(createdUser) {
+            // Explicitly set headers
+            res.setHeader('Content-Type', 'application/json');
             generateTokenAndSetCookie(createdUser._id, res);
             res.status(201).json(createdUser)
         }
