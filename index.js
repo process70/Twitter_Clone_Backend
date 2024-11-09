@@ -20,8 +20,10 @@ const app = express()
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
-  credentials: true
-}))
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -41,13 +43,17 @@ app.use(upload({
     tempFileDir: '/tmp/'
 }));
 
-/* Use this before your routes
-app.use(async (req, res, next) => {
-  if (!global.cloudinaryTested) {
-      global.cloudinaryTested = await testCloudinaryConfig();
-  }
-  next();
-}); */
+// Also add these headers explicitly
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    next();
+});
+
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'API is working' });
+});
 
 app.use("/auth", authRouter)
 app.use("/users", userRouter)
