@@ -19,10 +19,14 @@ dotenv.config()
 const app = express()
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: [
+    "http://localhost:5173",
+    "https://twitter-clone-frontend-phi.vercel.app",
+    "https://twitter-clone-frontend-6nts.onrender.com"
+  ],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 cloudinary.config({
