@@ -58,7 +58,17 @@ export const login = async (req, res) => {
         )  
        if(!accessToken) return res.status(401).json({message: 'Unable to generate the token'}) */
         // generate refresh token
-        generateTokenAndSetCookie(existingUser._id, res)
+        // generateTokenAndSetCookie(existingUser._id, res)
+        const userId = existingUser._id;
+        const token = jwt.sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+            expiresIn: "15d",
+        });
+        res.cookie('jwt', token, {
+            maxAge: 15 * 24 * 60 * 60 * 1000,   // ms
+            httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+            sameSite: "None", // CSRF attacks cross-site request forgery attacks
+            secure: true,
+        });
             
         res.status(201).json({user: existingUser})
 
