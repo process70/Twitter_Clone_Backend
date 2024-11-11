@@ -9,7 +9,7 @@ userRouter.get("/getCurrentUser", protectRoute, getCurrentUser)
 userRouter.get("/likes/:id", protectRoute, getLikedPosts)
 userRouter.get("/getSuggestedUsers", protectRoute, getSuggestedUsers)
 // use /profile in case of handling queries
-userRouter.get("/profile/:username", getUserProfile)
+userRouter.get("/profile/:username", protectRoute, getUserProfile)
 // Temporary route for debugging
 /* userRouter.get("/profile/*", (req, res) => {
     console.log("Profile route accessed with params:", req.params);
