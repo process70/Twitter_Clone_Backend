@@ -24,10 +24,10 @@ export const signUp = async (req, res) => {
         
         if(createdUser) {
             // Explicitly set headers
-            res.setHeader('Content-Type', 'application/json');
+            // res.setHeader('Content-Type', 'application/json');
             console.log("Account Created Successfully")
             generateTokenAndSetCookie(createdUser._id, res);
-            res.status(201).json(createdUser)
+            res.status(201).json({createdUser})
         }
         
         else return res.status(400).json({message: 'Unable to create the user'})
